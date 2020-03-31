@@ -1,7 +1,7 @@
 #! -*- coding: utf-8 -*-
 # 百度LIC2020的事件抽取赛道，非官方baseline
-# 直接用BERT+CRF
-# 在第一期测试集上能达到0.73的F1，略优于官方baseline
+# 直接用RoBERTa+CRF
+# 在第一期测试集上能达到0.76的F1，优于官方baseline
 
 import json
 import numpy as np
@@ -21,13 +21,13 @@ import pylcs
 maxlen = 128
 epochs = 20
 batch_size = 32
-learning_rate = 1e-5
-crf_lr_multiplier = 1000  # 必要时扩大CRF层的学习率
+learning_rate = 2e-5
+crf_lr_multiplier = 100  # 必要时扩大CRF层的学习率
 
 # bert配置
-config_path = '/root/kg/bert/chinese_L-12_H-768_A-12/bert_config.json'
-checkpoint_path = '/root/kg/bert/chinese_L-12_H-768_A-12/bert_model.ckpt'
-dict_path = '/root/kg/bert/chinese_L-12_H-768_A-12/vocab.txt'
+config_path = '/root/kg/bert/chinese_roberta_wwm_ext_L-12_H-768_A-12/bert_config.json'
+checkpoint_path = '/root/kg/bert/chinese_roberta_wwm_ext_L-12_H-768_A-12/bert_model.ckpt'
+dict_path = '/root/kg/bert/chinese_roberta_wwm_ext_L-12_H-768_A-12/vocab.txt'
 
 
 def load_data(filename):
