@@ -13,3 +13,4 @@ pip install bert4keras==0.6.9
 - 个人博客：https://spaces.ac.cn ; https://kexue.fm
 - QQ交流群：67729435
 - 微信群请加机器人微信号spaces_ac_cn
+- 欢迎测试自研语言模型: https://github.com/ZhuiyiTechnology/pretrained-models
