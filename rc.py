@@ -12,7 +12,6 @@ from bert4keras.tokenizers import Tokenizer
 from bert4keras.optimizers import Adam
 from bert4keras.snippets import sequence_padding, DataGenerator
 from bert4keras.snippets import open
-from bert4keras.layers import ConditionalRandomField
 from keras.layers import Layer, Dense, Permute
 from keras.models import Model
 from tqdm import tqdm
