@@ -1,7 +1,7 @@
 #! -*- coding: utf-8 -*-
 # 百度LIC2020的机器阅读理解赛道，非官方baseline
 # 直接用RoBERTa+Softmax预测首尾
-# BASE模型在第一期测试集上能达到0.67的F1，基本持平（略低于）官方baseline
+# BASE模型在第一期测试集上能达到0.678的F1，基本持平官方baseline
 # 如果你显存足够，可以换用RoBERTa Large模型，F1可以到0.69+
 
 import json, os
@@ -20,7 +20,7 @@ from tqdm import tqdm
 maxlen = 256
 epochs = 20
 batch_size = 32
-learing_rate = 1e-5
+learing_rate = 2e-5
 
 # bert配置
 config_path = '/root/kg/bert/chinese_roberta_wwm_ext_L-12_H-768_A-12/bert_config.json'
