@@ -2,7 +2,7 @@
 # 百度LIC2020的机器阅读理解赛道，非官方baseline
 # 直接用RoBERTa+Softmax预测首尾
 # BASE模型在第一期测试集上能达到0.678的F1，基本持平官方baseline
-# 如果你显存足够，可以换用RoBERTa Large模型，F1可以到0.69+
+# 如果你显存足够，可以换用RoBERTa Large模型，F1可以到0.697
 
 import json, os
 import numpy as np
