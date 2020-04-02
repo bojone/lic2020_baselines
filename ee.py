@@ -142,27 +142,32 @@ def extract_arguments(text):
     """命名实体识别函数
     """
     tokens = tokenizer.tokenize(text)
-    while len(tokens) > 512:
+    while len(tokens) > 510:
         tokens.pop(-2)
+    mapping = dict(enumerate(tokenizer.rematch(text, tokens)))
     token_ids = tokenizer.tokens_to_ids(tokens)
     segment_ids = [0] * len(token_ids)
     nodes = model.predict([[token_ids], [segment_ids]])[0]
     trans = K.eval(CRF.trans)
-    labels = viterbi_decode(nodes, trans)[1:-1]
+    labels = viterbi_decode(nodes, trans)
     arguments, starting = [], False
-    for token, label in zip(tokens[1:-1], labels):
+    for i, label in enumerate(labels):
         if label > 0:
-            if label % 2 == 1:
+            ch = text[mapping[i][0]:mapping[i][-1] + 1]
+            if label > 1:
                 starting = True
-                arguments.append([[token], id2label[(label - 1) // 2]])
+                arguments.append([[i], id2label[label - 2]])
             elif starting:
-                arguments[-1][0].append(token)
+                arguments[-1][0].append(i)
             else:
                 starting = False
         else:
             starting = False
 
-    return {tokenizer.decode(w, w): l for w, l in arguments}
+    return {
+        text[mapping[w[0]][0]:mapping[w[-1]][-1] + 1]: l
+        for w, l in arguments
+    }
 
 
 def evaluate(data):
