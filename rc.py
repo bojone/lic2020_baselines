@@ -1,8 +1,8 @@
 #! -*- coding: utf-8 -*-
 # 百度LIC2020的机器阅读理解赛道，非官方baseline
 # 直接用RoBERTa+Softmax预测首尾
-# BASE模型在第一期测试集上能达到0.678的F1，基本持平官方baseline
-# 如果你显存足够，可以换用RoBERTa Large模型，F1可以到0.697
+# BASE模型在第一期测试集上能达到0.69的F1，优于官方baseline
+# 如果你显存足够，可以换用RoBERTa Large模型，F1可以到0.71
 
 import json, os
 import numpy as np
@@ -140,19 +140,26 @@ model.compile(
 def extract_answer(question, context, max_a_len=16):
     """抽取答案函数
     """
-    token_ids, segment_ids = tokenizer.encode(
-        question, context, max_length=maxlen
-    )
+    max_q_len = 64
+    q_token_ids = tokenizer.encode(question, max_length=max_q_len)[0]
+    c_token_ids = tokenizer.encode(
+        context, max_length=maxlen - len(q_token_ids) + 1
+    )[0]
+    token_ids = q_token_ids + c_token_ids[1:]
+    segment_ids = [0] * len(q_token_ids) + [1] * (len(c_token_ids) - 1)
+    c_tokens = tokenizer.tokenize(context)[1:-1]
+    mapping = tokenizer.rematch(context, c_tokens)
     probas = model.predict([[token_ids], [segment_ids]])[0]
+    probas = probas[:, len(q_token_ids):-1]
     start_end, score = None, -1
     for start, p_start in enumerate(probas[0]):
         for end, p_end in enumerate(probas[1]):
             if end >= start and end < start + max_a_len:
                 if p_start * p_end > score:
-                    start_end = (start, end + 1)
+                    start_end = (start, end)
                     score = p_start * p_end
-    answer_id = token_ids[start_end[0]:start_end[1]]
-    return tokenizer.decode(answer_id).replace(' ', '')  # 去掉空格分数更高
+    start, end = start_end
+    return context[mapping[start][0]:mapping[end][-1] + 1]
 
 
 def predict_to_file(infile, out_file):
