@@ -1,7 +1,7 @@
 #! -*- coding: utf-8 -*-
 # 百度LIC2020的事件抽取赛道，非官方baseline
 # 直接用RoBERTa+CRF
-# 在第一期测试集上能达到0.76的F1，优于官方baseline
+# 在第一期测试集上能达到0.78的F1，优于官方baseline
 
 import json
 import numpy as np
