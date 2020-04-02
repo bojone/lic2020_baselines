@@ -139,7 +139,7 @@ def viterbi_decode(nodes, trans):
 
 
 def extract_arguments(text):
-    """命名实体识别函数
+    """arguments抽取函数
     """
     tokens = tokenizer.tokenize(text)
     while len(tokens) > 510:
@@ -156,7 +156,7 @@ def extract_arguments(text):
             ch = text[mapping[i][0]:mapping[i][-1] + 1]
             if label > 1:
                 starting = True
-                arguments.append([[i], id2label[label - 2]])
+                arguments.append([[i], id2label[(label - 1) // 2]])
             elif starting:
                 arguments[-1][0].append(i)
             else:
