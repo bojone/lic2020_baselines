@@ -144,7 +144,7 @@ def extract_arguments(text):
     tokens = tokenizer.tokenize(text)
     while len(tokens) > 510:
         tokens.pop(-2)
-    mapping = dict(enumerate(tokenizer.rematch(text, tokens)))
+    mapping = tokenizer.rematch(text, tokens)
     token_ids = tokenizer.tokens_to_ids(tokens)
     segment_ids = [0] * len(token_ids)
     nodes = model.predict([[token_ids], [segment_ids]])[0]
