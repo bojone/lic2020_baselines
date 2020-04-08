@@ -153,7 +153,6 @@ def extract_arguments(text):
     arguments, starting = [], False
     for i, label in enumerate(labels):
         if label > 0:
-            ch = text[mapping[i][0]:mapping[i][-1] + 1]
             if label % 2 == 1:
                 starting = True
                 arguments.append([[i], id2label[(label - 1) // 2]])
