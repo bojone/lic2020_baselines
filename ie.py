@@ -61,13 +61,6 @@ with open('/root/baidu/datasets/ie/schema.json') as f:
             predicate2id[key] = n
             n += 1
 
-with open('/root/kg/datasets/all_50_schemas') as f:
-    for l in f:
-        l = json.loads(l)
-        if l['predicate'] not in predicate2id:
-            id2predicate[len(predicate2id)] = l['predicate']
-            predicate2id[l['predicate']] = len(predicate2id)
-
 # 建立分词器
 tokenizer = Tokenizer(dict_path, do_lower_case=True)
 
